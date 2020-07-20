@@ -1,0 +1,112 @@
+loop - menu principal
+	selecionar o jogo com “menu1(num do jogo)” 1-3
+	botao select = 0 - search
+			1 - sabotage
+			2 - domination
+			3 - config
+configQuickGame()
+	define tempo -> D para validar
+			  C para cancelar -> volta ao menu1
+BOMB_TIME -> D para validar
+			  C para cancelar -> volta ao menu2
+	ARMING TIME -> D para validar
+			  C para cancelar -> volta ao menu3
+	sound??  -> A enable
+		        B disable
+	Activate RELAY at Terrorist game ends??? Boom!-> A enable
+		       						 B disable
+You Want a password enable-disable game?-> A enable
+		       					     B disable
+	
+setPass 8 dígitos obrigatórios
+	
+
+zutils -> efeitos do lcd
+	cls() - limpar display e meter a 0,0
+
+
+search destroy ()
+depois de inserido a password inicial a bomba fica activa: ou chega ao fim e terrorista ganha ou é desarmada e o contra terroristas ganha
+	search ->
+		imrprime tempo no lcd e led verde a piscar
+		se houver password e pressionado D -> armar a bomba >inserir password
+			se a comparar a password for verdadeiro -> destroy()
+			se não apita errado
+		sem password
+			enquanto pressionado durante x tempo -> arma a bomba -> destroy()
+		
+	destroy->
+		sempre a mostrar tempo decrescente
+			se passar o tempo-> explodeSplash()
+			se ficar carregar no D e houver password -> introduzir password
+				OK->disarmedSplash()
+			se não houver password
+				enquanto carrega D -> tempo decresce -> chega tempo ao fim                -> disarmedSplash()
+
+
+
+
+sabotage()
+depois de inserido a password inicial pelos terroristas, a bomba fica em espera que seja desarmada pelos contra terroristas, ficando em espera que possa ser rearmada. Ganha os contra terroristas quanto o tempo de jogo chegar ao fim, e a bomba não for detonada.
+	sabotage=
+		imprime tempo de jogo
+		Se o tempo chegar ao fim -> failSplash
+se carregar em D e houver password -> Armar a bomba -> inserir password 
+	se password correcta -> destroySabotage()
+	se não apita errado
+Se carregar em D sem password e tempo chegar ao fim ->destroySabotage()
+	
+destroySabotage=
+		TIME PASED AWAY AND THE BOMB EXPLODES
+SECOND OPTION: YOU PRESS DISARMING BUTTON
+
+IF IS A PASSWORD GAME
+	carregar em D e houver password -> introduzir password-> correcta? 
+1> volta para sabotage
+SEM PASSWORD
+enquanto carrega em D e acaba tempo -> BOMB DISARMED RETURN TO SABOTAGE
+
+
+
+
+
+
+
+domination()
+a equipa que chegar ao fim do tempo com maior tempo de posse da mala, ganha
+Equipa 1 RED aciona o botão D durante 10 seg
+Equipa 2 GREEN aciona o botão C durante 10 seg
+domination
+		mostra o tempo de jogo e a que equipa pertence a mala
+		validação da zona
+			0=neutro
+			1=zona verde
+			2 =zona vermelha
+
+	enquanto pressionando D ou C e equipa diferente do neutro ->  
+
+	enquanto pressionado D e equipa neutra -> activa equipa 2
+	
+	enquanto pressionado C e equipa neutra -> activa equipa 1
+
+gameOver
+gameOver
+		
+
+
+Splash
+explodeSplash()
+("TERRORISTS WIN")
+"GAME OVER"
+"Play Again?"
+"A : Yes B : No"   -> A = startGameCount() ; B = menuPrincipal()
+
+failSplash()
+"  TIME OUT"
+"GAME OVER"
+"A : Yes B : No"   -> A = startGameCount() ; B = menuPrincipal()
+
+disarmedSplash()
+"BOMB DISARMED"
+"GOODS WIN"
+"A : Yes B : No"   -> A = startGameCount() ; B = menuPrincipal()
