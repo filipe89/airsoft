@@ -9,3 +9,7 @@ domination()
 a equipa que chegar ao fim do tempo com maior tempo de posse da mala, ganha
 Equipa 1 RED aciona o botão D durante 10 seg
 Equipa 2 GREEN aciona o botão C durante 10 seg
+
+
+to convert images 128x64
+http://javl.github.io/image2cpp/
