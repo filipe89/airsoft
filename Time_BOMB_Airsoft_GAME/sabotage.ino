@@ -1,43 +1,48 @@
-void search() {
+
+void sabotage() {
+  endGame = false;
   refresh = true;
   cls();
   digitalWrite(REDLED, LOW);
   digitalWrite(GREENLED, LOW);
   //SETUP INITIAL TIME
   int minutos = GAMEMINUTES - 1;
-  unsigned long iTime = millis(); //  initialTime in millisec
+
+
+  if (start) {
+    iTime = millis(); //  initialTime of the game, use this because sabotage mode goes can return to sabotage()
+    start = false;
+  }
+
   unsigned long aTime;
-  //var='o';
 
   //Starting Game Code
   while (1) { // this is the important code, is a little messy but works good.
 
-    //If you fail disarm.
     if (endGame) {
       failSplash();
     }
-
     //Code for led blinking
     timeCalcVar = (millis() - iTime) % 1000;
     if (timeCalcVar >= 0 && timeCalcVar <= 50)digitalWrite(GREENLED, HIGH);
     if (timeCalcVar >= 90 && timeCalcVar <= 130)digitalWrite(GREENLED, LOW);
 
     lcd.setCursor(3, 0);
-    lcd.print(GAME_TIME_TOP);
+    lcd.print(GAME_TIME);
     aTime = millis() - iTime;
     lcd.setCursor(3, 1);
 
     //PRINT TIME ON LCD
-
     printTime(minutos, aTime);
-
     //###########################CHECKINGS##################
 
     //Check If Game End
-    if (minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0)failSplash();
-    //Serial.println(keypad.getKey());
+    if (minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0) {
+      failSplash();
+    }
+
     //USED IN PASSWORD GAME
-    if ('d' == keypad.getKey() && passwordEnable) {
+    if ('d' == keypad.getKey() && passwordEnable && ogivas) {
       lcd.clear();
       lcd.setCursor(2, 0);
       lcd.print(ARMING_BOMB);
@@ -46,21 +51,26 @@ void search() {
       lcd.setCursor(0, 0);
       lcd.print(ENTER_CODE);
 
-      setCodeTime();// we need to set the comparation variable first it writes on codeInput[]
+      setCodeTime();// we need to set the compare variable first
 
       //then compare :D
 
-      if (comparePassword()) destroy();
+      if (comparePassword()) {
+        destroySabotage();
+      }
       lcd.clear();
-      lcd.setCursor(3, 0);
+      lcd.setCursor(2, 0);
       lcd.print(CODE_ERROR);
       if (soundEnable)tone(tonepin, errorTone, 200);
       delay(500);
       cls();
     }
+
     //Check If Is Activating
     while (defusing && !passwordEnable)
     {
+      keypad.getKey();
+      cls();
       digitalWrite(GREENLED, LOW);
       lcd.clear();
       lcd.setCursor(2, 0);
@@ -71,15 +81,10 @@ void search() {
       while (defusing)
       {
         keypad.getKey();
-                percent = (millis() - xTime) / (ACTIVATESECONDS * 10);
-                
-        drawBar(percent);
         //check if game time runs out during the disabling
         aTime = millis() - iTime;
-        Serial.println(millis()-xTime);
-        if ((minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0) || minutos - aTime / 60000 > 4000000000) {
-          endGame = true;
-        }
+        if ((minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0) || minutos - aTime / 60000 > 4000000000)endGame = true;
+
         timeCalcVar = (millis() - xTime) % 1000;
 
         if ( timeCalcVar >= 0 && timeCalcVar <= 40)
@@ -92,23 +97,24 @@ void search() {
           if (soundEnable)tone(tonepin, alarmTone2, 200);
           digitalWrite(REDLED, LOW);
         }
-
-
+        unsigned long seconds = millis() - xTime;
+        percent = (seconds) / (ACTIVATESECONDS * 10);
+        drawBar(percent);
 
         if (percent >= 100)
         {
           digitalWrite(GREENLED, LOW);
-          destroy();// jump to the next gamemode
+          destroySabotage();// jump to the next gamemode
         }
       }
       cls();
       digitalWrite(REDLED, LOW);
-
     }
   }
 }
 
-void destroy() {
+void destroySabotage() {
+  endGame = false;
   lcd.clear();
   lcd.setCursor(3, 0);
   lcd.print(BOMB_ARMED);
@@ -138,8 +144,9 @@ void destroy() {
       digitalWrite(REDLED, LOW);
     }
     //Sound
-    aTime = millis() - iTime;
+
     timeCalcVar = (millis() - iTime) % 1000;
+    aTime = millis() - iTime;
     if (timeCalcVar >= 245 && timeCalcVar <= 255 && minutos - aTime / 60000 < 2 && soundEnable)tone(tonepin, activeTone, largoTono);
     if (timeCalcVar >= 495 && timeCalcVar <= 510 && minutos - aTime / 60000 < 4 && soundEnable)tone(tonepin, activeTone, largoTono);
     if (timeCalcVar >= 745 && timeCalcVar <= 760 && minutos - aTime / 60000 < 2 && soundEnable)tone(tonepin, activeTone, largoTono);
@@ -156,10 +163,9 @@ void destroy() {
     ////TIME PASED AWAY AND THE BOMB EXPLODES
     if (minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0) // Check if game ends
     {
-      explodeSplash();
+      failSplash();
     }
     //print time
-
     printTime(minutos, aTime);
 
     //// SECOND OPTION: YOU PRESS DISARMING BUTTON
@@ -168,8 +174,9 @@ void destroy() {
 
     if ('d' == keypad.getKey() && passwordEnable) {
 
-      lcd.clear();
-      lcd.setCursor(1, 0);
+      cls();
+      digitalWrite(REDLED, LOW);
+      digitalWrite(GREENLED, HIGH);
       lcd.print(DISARMING);
       delay(1000);//a little delay to think in the password
 
@@ -182,10 +189,10 @@ void destroy() {
       //then compare :D
 
       if (comparePassword()) {
-        disarmedSplash();
+        sabotage();
       }
       lcd.clear();
-      lcd.setCursor(3, 0);
+      lcd.setCursor(2, 0);
       lcd.print(CODE_ERROR);
       if (soundEnable)tone(tonepin, errorTone, 200);
       delay(500);
@@ -209,13 +216,14 @@ void destroy() {
         if ((minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0) || minutos - aTime / 60000 > 4000000000) {
           endGame = true;
         }
+
         timeCalcVar = (millis() - xTime) % 1000;
         if (timeCalcVar >= 0 && timeCalcVar <= 20)
         {
           digitalWrite(GREENLED, HIGH);
           if (soundEnable)tone(tonepin, alarmTone1, 200);
         }
-        if (timeCalcVar  >= 480 && timeCalcVar <= 500)
+        if (timeCalcVar >= 480 && timeCalcVar <= 500)
         {
           if (soundEnable)tone(tonepin, alarmTone2, 200);
           digitalWrite(GREENLED, LOW);
@@ -224,8 +232,14 @@ void destroy() {
         percent = seconds / (ACTIVATESECONDS * 10);
         drawBar(percent);
 
-        //BOMB DISARMED GAME OVER
-        if (percent >= 100)disarmedSplash();
+        //BOMB DISARMED RETURN TO SABOTAGE
+        if (percent >= 100)
+        {
+          cls();
+          lcd.print("Bomb Disarmed");
+          delay(1000);
+          sabotage();
+        }
       }
       digitalWrite(REDLED, LOW);
       digitalWrite(GREENLED, LOW);
@@ -233,5 +247,3 @@ void destroy() {
     }
   }
 }
-
-
