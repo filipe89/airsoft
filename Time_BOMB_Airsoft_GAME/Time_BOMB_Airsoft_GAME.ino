@@ -1,7 +1,7 @@
 #include <Wire.h> 
 #include <Keypad.h>
-//#include <LiquidCrystal_I2C.h>
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
+//#include <LiquidCrystal.h>
 /*
  Arduino Bomb Pro
  
@@ -15,8 +15,8 @@
  
  */
 
-//LiquidCrystal_I2C lcd(0x38,16,2);
-LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
+LiquidCrystal_I2C lcd(0x27,16,2);
+//LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //three columns
 char keys[ROWS][COLS] = {
@@ -213,4 +213,3 @@ void keypadEvent(KeypadEvent key){
     break;
   }
 }
-

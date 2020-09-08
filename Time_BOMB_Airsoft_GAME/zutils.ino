@@ -166,4 +166,7 @@ void activateRelay(){
 
 }
 
-
+boolean ogivas ()
+{
+  return true;
+}
