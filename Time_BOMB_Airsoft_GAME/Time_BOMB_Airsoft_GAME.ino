@@ -96,7 +96,9 @@ unsigned long iZoneTime;//initial time for zone
 byte team=0; // 0 = neutral, 1 = green team, 2 = red team
 
 void setup(){
-  lcd.begin(16, 2);
+//  lcd.begin(16, 2);
+  lcd.init();
+  lcd.backlight();
   Serial.begin(9600);
   lcd.setCursor(3,0);
   tone(tonepin,2400,30);

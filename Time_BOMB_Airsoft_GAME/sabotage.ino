@@ -172,7 +172,7 @@ void destroySabotage() {
 
     //IF IS A PASSWORD GAME
 
-    if ('d' == keypad.getKey() && passwordEnable) {
+    if ('d' == keypad.getKey() && passwordEnable && ogivas()) {
 
       cls();
       digitalWrite(REDLED, LOW);

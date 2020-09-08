@@ -59,7 +59,7 @@ void search() {
       cls();
     }
     //Check If Is Activating
-    while (defusing && !passwordEnable && ogivas)
+    while (defusing && !passwordEnable && ogivas())
     {
       digitalWrite(GREENLED, LOW);
       lcd.clear();
