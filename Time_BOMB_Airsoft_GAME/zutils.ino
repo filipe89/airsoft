@@ -168,5 +168,10 @@ void activateRelay(){
 
 boolean ogivas ()
 {
-  return true;
+  lcd.setCursor(3,1);
+  lcd.print("SEM OGIVA    ");
+  delay(2000);
+  lcd.setCursor(0,1);
+  lcd.print("          ");
+  return false;
 }
