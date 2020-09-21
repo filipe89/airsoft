@@ -6,9 +6,9 @@ void explodeSplash(){
   delay(100);
   endGame = false;
   lcd.setCursor(1,0);
-  lcd.print("TERRORISTS WIN");
+  lcd.print(TWIN);
   lcd.setCursor(4,1);
-  lcd.print("GAME OVER");
+  lcd.print(GAME_OVER );
   for(int i = 200; i>0; i--)// this is the ultra hi definition explosion sound xD
   {
     tone(tonepin,i);
@@ -22,9 +22,9 @@ void explodeSplash(){
   cls();
 
   //end code
-  lcd.print("Play Again?");
+  lcd.print(PAGAIN);
   lcd.setCursor(0,1);
-  lcd.print("A : Yes B : No");
+  lcd.print(option);
   while(1)
   {
     var = keypad.waitForKey();
@@ -57,9 +57,9 @@ void failSplash(){
   delay(100);
   endGame = false;
   lcd.setCursor(1,0);
-  lcd.print("  TIME OUT");
+  lcd.print(TOUT);
   lcd.setCursor(4,1);
-  lcd.print("GAME OVER");
+  lcd.print(GAME_OVER);
   for(int i = 200; i>0; i--)// this is the ultra hi definition explosion sound xD
   {
     tone(tonepin,i);
@@ -73,9 +73,9 @@ void failSplash(){
   cls();
 
   //end code
-  lcd.print("Play Again?");
+  lcd.print(PAGAIN);
   lcd.setCursor(0,1);
-  lcd.print("A : Yes B : No");
+  lcd.print(option);
   while(1)
   {
     var = keypad.waitForKey();
@@ -108,18 +108,18 @@ void disarmedSplash(){
   if(sdStatus || saStatus){
     lcd.clear();
     lcd.setCursor(2,0);
-    lcd.print("BOMB DISARMED");
+    lcd.print(DISARM);
     lcd.setCursor(3,1);
-    lcd.print("GOODS WIN");
+    lcd.print(DEFENDERS_WIN);
     digitalWrite(GREENLED, HIGH);  
     delay(5000);
     digitalWrite(GREENLED, LOW); 
   }
   //end code
   lcd.clear();
-  lcd.print("Play Again?");
+  lcd.print(PAGAIN);
   lcd.setCursor(0,1);
-  lcd.print("A : Yes B : No");
+  lcd.print(option);
   digitalWrite(REDLED, LOW);  
   digitalWrite(GREENLED, LOW); 
   while(1)

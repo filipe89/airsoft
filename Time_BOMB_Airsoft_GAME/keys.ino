@@ -68,7 +68,7 @@ void setCodeTime(){
 void setPass(){
   lcd.setCursor(0, 1);
 
-  for(int i=0;i<8;i++){ 
+  for(int i=0;i<8;i++){ // numb de digitos
     while(1){
       var= getNumber();
       if(var !='x'){
@@ -108,6 +108,7 @@ void setNewPass(){
       lcd.clear();
       lcd.setCursor(0, 0);
       lcd.print("Password Set OK!");
+      save(7);
       delay(2000); 
       break; 
     }
@@ -205,10 +206,3 @@ byte getRealNumber(){
     return 11;
   }
 }
-
-
-
-
-
-
-

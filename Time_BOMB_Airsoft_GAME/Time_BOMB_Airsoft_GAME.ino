@@ -97,8 +97,10 @@ unsigned long iZoneTime;//initial time for zone
 byte team=0; // 0 = neutral, 1 = green team, 2 = red team
 
 void setup(){
+  
   lcd.init();                      // initialize the lcd 
   Serial.begin(9600);
+  getConfig();
   lcd.setCursor(3,0);
   tone(tonepin,2400,30);
   lcd.print("BLUECORE TECH");// you can add your team name or someting cool

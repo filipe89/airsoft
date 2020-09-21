@@ -122,18 +122,18 @@ void printTimeDom(unsigned long aTiempo, boolean showMillis){
 void startGameCount(){
   lcd.clear();
   lcd.setCursor(1,0);
-  lcd.print("Ready to Begin");
+  lcd.print(RBEGIN);
   lcd.setCursor(0,1);
-  lcd.print("Push ANY Button");
+  lcd.print(PBUTTON);
   keypad.waitForKey();//if you press a button game start
 
   cls();
   lcd.setCursor(1,0);
-  lcd.print("Starting Game");
+  lcd.print(STGAME);
   for(int i = 5; i > 0 ; i--){ // START COUNT GAME INIT
     lcd.setCursor(5,1);
     tone(tonepin,2000,100);
-    lcd.print("IN ");
+    lcd.print(EM);
     lcd.print(i);
     delay(1000);
   }
@@ -169,7 +169,7 @@ void activateRelay(){
 boolean ogivas ()
 {
   lcd.setCursor(3,1);
-  lcd.print("SEM OGIVA    ");
+  lcd.print(WTOGIVA);
   delay(2000);
   lcd.setCursor(0,1);
   lcd.print("          ");

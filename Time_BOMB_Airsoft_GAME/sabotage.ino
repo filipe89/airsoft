@@ -236,7 +236,7 @@ void destroySabotage() {
         if (percent >= 100)
         {
           cls();
-          lcd.print("Bomb Disarmed");
+          lcd.print(DISARM);
           delay(1000);
           sabotage();
         }

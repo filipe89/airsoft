@@ -24,15 +24,15 @@ void menuPrincipal(){   //MAIN MENU
       i--;
       cls();
       lcd.print(menu1[i]);
-      checkArrows(i,2);
+      checkArrows(i,3);
       delay(50);
     }
-    if(var == BT_DOWN && i<2){
+    if(var == BT_DOWN && i<3){
       tone(tonepin,2400,30);
       i++;
       cls(); 
       lcd.print(menu1[i]);    
-      checkArrows(i,2);
+      checkArrows(i,3);
       delay(50);
     }
 
@@ -43,25 +43,25 @@ void menuPrincipal(){   //MAIN MENU
 
       case 0:
         sdStatus=true;
-        configQuickGame();
+//        configQuickGame();
         startGameCount();
         search();
         break;
       case 1: 
         saStatus=true;
-        configQuickGame();
+//        configQuickGame();
         startGameCount();
         sabotage();
         break;
       case 2:
 
         doStatus=true;
-        configQuickGame();
+//        configQuickGame();
         startGameCount();
         domination();
         break;
       case 3:
-        config();
+        configu();
         break;
 
       }
@@ -69,7 +69,7 @@ void menuPrincipal(){   //MAIN MENU
   }
 }
 
-void config(){
+void configu(){
   //Draw menu
   lcd.clear();
   lcd.setCursor(0, 0);
@@ -107,38 +107,48 @@ void config(){
       lcd.clear();
       switch (i){
 
-      case 0:
+      case 0: //config jogo
         //gameConfigMenu();
+        lcd.print("ENTER CONFIG GAME");
+        configQuickGame(1);
         break;
 
-      case 1:
-        //soundConfigMenu();
+      case 1: //config som
+        configQuickGame(2);
         break;
-
-      case 2:
+      case 2://config rele
+      configQuickGame(3);
+      break;      
+      case 3: // teste rele
         cls();
-        lcd.print("RELAYPIN ON!");
+        lcd.print(RELEON);
         digitalWrite(RELAYPIN, HIGH);   // turn the LED on (HIGH is the voltage level)
         delay(4000);   // wait for 4 second
         cls();
-        lcd.print("RELAYPIN OFF!");
+        lcd.print(RELEOFF);
         digitalWrite(RELAYPIN, LOW);
         delay(2000);
-        config();
+//        configu();
         break;        
-
+      case 4:
+      lcd.setCursor(0,0);
+      lcd.print("MENSAGEM TESTE");
+      break;
       }
     }
   }
 }
 
-void configQuickGame(){
+void configQuickGame(int opt){
 
   cls();
   //GAME TIME
-  if(sdStatus || doStatus || saStatus){
+//  if(sdStatus || doStatus || saStatus){
+//---------------------------------------------------------
+  if(opt == 1){
     menu1:
     cls();
+    
     lcd.print(GAME_TIME);
     delay(100);
     lcd.setCursor(0,1);
@@ -180,6 +190,9 @@ void configQuickGame(){
       {
         tone(tonepin,2400,30);
         GAMEMINUTES= ((time[0]*600)+(time[1]*60)+(time[2]*10)+(time[3]));
+//        for (int l=0; l<4; l++)  
+//          Serial.println(time[l]);
+        save(1);
         break;
       }    
   if(var == 'c') // Cancel or Back Button :')
@@ -191,9 +204,11 @@ void configQuickGame(){
     tone(tonepin,2400,30);
     cls();
   }
+
+  
   //BOMB TIME
-  if(sdStatus || saStatus){
- 
+//  if(sdStatus || saStatus){
+  if(opt == 1){
     menu2:
     cls();
     lcd.print(BOMB_TIME);
@@ -226,6 +241,7 @@ void configQuickGame(){
       {
         tone(tonepin,2400,30);
         BOMBMINUTES= ((time[0]*10)+(time[1]));
+        save(2);
         break;
       }    
   if(var == 'c') // Cancel or Back Button :')
@@ -237,10 +253,11 @@ void configQuickGame(){
     tone(tonepin,2400,30);
     cls();
   }
+  
   cls();
   //ARMING TIME
-  if(sdStatus || doStatus || saStatus){
-        
+//  if(sdStatus || doStatus || saStatus){
+  if(opt == 1){      
     menu3:
     cls();
     lcd.print(ARM_TIME);
@@ -274,6 +291,7 @@ void configQuickGame(){
       {
         tone(tonepin,2400,30);
         ACTIVATESECONDS= ((time[0]*10)+(time[1]));
+        save(3);
         break;
       }    
   if(var == 'c') // Cancel or Back Button :')
@@ -285,8 +303,10 @@ void configQuickGame(){
     tone(tonepin,2400,30);
     cls();
   }
+  
   //sound??
-  if(sdStatus || saStatus || doStatus){
+//  if(sdStatus || saStatus || doStatus){
+  if(opt == 2){
     cls();
     lcd.print(ENABLE_SOUND);
     lcd.setCursor(0,1);
@@ -297,12 +317,14 @@ void configQuickGame(){
       var = keypad.waitForKey();
       if(var == 'a' ){
         soundEnable=true;
+        save(4);
         tone(tonepin,2400,30);
         break;
       }  
 
       if(var == 'b' ){
         soundEnable=false;
+        save(4);
         tone(tonepin,2400,30);
         break;
       }  
@@ -310,7 +332,8 @@ void configQuickGame(){
   } 
   //Activate RELAY at Terrorist game ends??? Boom!
 
-  if(sdStatus || saStatus){
+//  if(sdStatus || saStatus){
+  if(opt == 3){
     cls();
     lcd.print(ENABLE_RELAYPIN);
     lcd.setCursor(0,1);
@@ -320,18 +343,21 @@ void configQuickGame(){
       var = keypad.waitForKey();
       if(var == 'a' ){
         relayEnable=true;
+        save(5);
         tone(tonepin,2400,30);
         break;
       }  
       if(var == 'b' ){
         relayEnable=false;
+        save(5);
         tone(tonepin,2400,30);
         break;
       }  
     } 
   }
   //You Want a password enable-disable game?
-  if(sdStatus || saStatus){
+//  if(sdStatus || saStatus){
+   if( opt == 1){
     cls();
     lcd.print(ENABLE_CODE);
     lcd.setCursor(0,1);
@@ -344,11 +370,13 @@ void configQuickGame(){
         tone(tonepin,2400,30);
         setNewPass();
         passwordEnable = true;
+        save(6);
         break;
       }  
       if(var == 'b' ){
         tone(tonepin,2400,30);
         passwordEnable = false;
+        save(6);
         break;
       }  
     } 
@@ -356,9 +384,3 @@ void configQuickGame(){
   }  
   //Continue the game :D
 }
-
-
-
-
-
-
