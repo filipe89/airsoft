@@ -37,7 +37,7 @@ void search() {
     if (minutos - aTime / 60000 == 0 && 59 - ((aTime / 1000) % 60) == 0)failSplash();
     //Serial.println(keypad.getKey());
     //USED IN PASSWORD GAME
-    if ('d' == keypad.getKey() && passwordEnable && ogivas) {
+    if ('d' == keypad.getKey() && passwordEnable && ogivas()) { //desarmar com pass
       lcd.clear();
       lcd.setCursor(2, 0);
       lcd.print(ARMING_BOMB);
@@ -59,7 +59,7 @@ void search() {
       cls();
     }
     //Check If Is Activating
-    while (defusing && !passwordEnable && ogivas)
+    while (defusing && !passwordEnable && ogivas()) //armar sem pass
     {
       digitalWrite(GREENLED, LOW);
       lcd.clear();
@@ -166,7 +166,7 @@ void destroy() {
 
     //IF IS A PASSWORD GAME
 
-    if ('d' == keypad.getKey() && passwordEnable) {
+    if ('d' == keypad.getKey() && passwordEnable) { //tecla com pass activa
 
       lcd.clear();
       lcd.setCursor(1, 0);
@@ -192,7 +192,7 @@ void destroy() {
       cls();
     }
 
-    if (defusing && !passwordEnable) // disarming bomb
+    if (defusing && !passwordEnable && ogivas()) // disarming bomb sem pass
     {
       lcd.clear();
       digitalWrite(REDLED, LOW);

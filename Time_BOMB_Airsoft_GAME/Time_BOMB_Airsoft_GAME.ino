@@ -30,9 +30,10 @@ char keys[ROWS][COLS] = {
 };
 
 byte rowPins[ROWS] = {
-  12, 13, A5, A4}; //connect to the row pinouts of the keypad
+  36, 34, 32, 30
+  }; //connect to the row pinouts of the keypad
 byte colPins[COLS] = {
-  A3, A2, A1, A0
+  28, 26, 24, 22
 }; //connect to the column pinouts of the keypad
 
 Keypad keypad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS );
@@ -96,7 +97,7 @@ unsigned long iZoneTime;//initial time for zone
 byte team=0; // 0 = neutral, 1 = green team, 2 = red team
 
 void setup(){
-  lcd.begin(16, 2);
+  lcd.init();                      // initialize the lcd 
   Serial.begin(9600);
   lcd.setCursor(3,0);
   tone(tonepin,2400,30);
@@ -188,6 +189,9 @@ void setup(){
   lcd.createChar(4,bar5);
   lcd.createChar(5,up);
   lcd.createChar(6,down);
+
+  lcd.backlight();
+  lcd.print("START GAME!");
 }
 
 void loop(){
