@@ -19,6 +19,10 @@ passwordEnable = EEPROM.read(10);
       password[i]=EEPROM.read(11+i); //add 11 - 19
     }
 
+ for(int i=0;i<4;i++){
+      nuidPICC[i]=EEPROM.read(20+i); //add 11 - 19
+    }
+
 }
   
 //RELAY_TIME = EEPROM.read(1) * 1000 ;
@@ -62,4 +66,15 @@ void save(int modo){
     for(int i=0;i<8;i++){
       EEPROM.write(11+i, password[i]);
     }
+
+  if (modo == 10)
+    for(int i=0;i<4;i++){
+      EEPROM.write(20+i, nuidPICC[i]);
+    }
+    
+//  if (modo == 11)
+//    for(int i=0;i<4;i++){
+//      EEPROM.write(24+i, password[i]);
+//    }
+  
 }

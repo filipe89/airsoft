@@ -173,5 +173,30 @@ boolean ogivas ()
   delay(2000);
   lcd.setCursor(0,1);
   lcd.print("          ");
-  return false;
+
+    
+
+    if (rfid.uid.uidByte[0] != nuidPICC[0] || rfid.uid.uidByte[1] != nuidPICC[1] || rfid.uid.uidByte[2] != nuidPICC[2] || rfid.uid.uidByte[3] != nuidPICC[3] ) {
+      rfid.PICC_HaltA();
+      // Stop encryption on PCD
+      rfid.PCD_StopCrypto1();
+      return true;
+    }
+
+    else{
+      // Halt PICC
+      rfid.PICC_HaltA();
+      // Stop encryption on PCD
+      rfid.PCD_StopCrypto1();
+      return false;
+  }
+}
+
+void printHex(byte *buffer, byte bufferSize) {
+  lcd.clear();
+  lcd.setCursor(0,1);
+  for (byte i = 0; i < bufferSize; i++) {
+    lcd.print(buffer[i] < 0x10 ? " 0" : " ");
+    lcd.print(buffer[i], HEX);
+  }
 }

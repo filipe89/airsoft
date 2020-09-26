@@ -1,5 +1,5 @@
   char* menu1[]={"Local&Destr","Sabotagem","Dominio", "Configuracao"      };
-  char* menu2[]={"Config jogo","Config Som", "Config Rele" ,"testar rele", "Auto Teste"      };   
+  char* menu2[]={"Config jogo","Config Som", "Config Rele" ,"testar rele", "Auto Teste", "REG OGIVAS"      };   
   char* GAME_TIME="Tempo de jogo:"; 
   char* BOMB_TIME="Tempo da bomba:";
   char* ZERO_MINUTES="00 minutos";
@@ -31,3 +31,5 @@
   char* option = "A : SIM B : NAO";
   char* RELEON = "RELE ACTIVO!";
   char* RELEOFF = "RELE DESACTIVO!";
+  char* OGIVA1 = "OGIVA 1";
+  char* PRESSBUT = "PRESS 1 2 C-CANC";

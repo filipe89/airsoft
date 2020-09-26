@@ -96,8 +96,24 @@ unsigned long greenTime;
 unsigned long iZoneTime;//initial time for zone
 byte team=0; // 0 = neutral, 1 = green team, 2 = red team
 
+//**********************RFID-----------------------------
+#include <SPI.h>
+#include <MFRC522.h>
+
+#define SS_PIN 53
+#define RST_PIN 9
+ 
+MFRC522 rfid(SS_PIN, RST_PIN); // Instance of the class
+
+MFRC522::MIFARE_Key keyrf; 
+
+// Init array that will store new NUID 
+byte nuidPICC[4]; //BASE 1
+
+//-------------------------------------------------------
+
 void setup(){
-  
+  SPI.begin();
   lcd.init();                      // initialize the lcd 
   Serial.begin(9600);
   getConfig();
@@ -191,6 +207,12 @@ void setup(){
   lcd.createChar(4,bar5);
   lcd.createChar(5,up);
   lcd.createChar(6,down);
+
+  rfid.PCD_Init();
+
+  for (byte i = 0; i < 6; i++) {
+    keyrf.keyByte[i] = 0xFF;
+  }
 
   lcd.backlight();
   lcd.print("START GAME!");

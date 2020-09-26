@@ -77,7 +77,7 @@ void configu(){
   
   delay(500);
   lcd.print(menu2[i]);
-  checkArrows(i,3);
+  checkArrows(i,5);
 
   while(1){
     var=keypad.waitForKey();
@@ -86,16 +86,16 @@ void configu(){
       i--;
       lcd.clear();  
       lcd.print(menu2[i]);
-      checkArrows(i,3);
+      checkArrows(i,5);
       delay(50);
 
     }
-    if(var == BT_DOWN && i<3){
+    if(var == BT_DOWN && i<5){
       tone(tonepin,2400,30);
       i++;
       lcd.clear();  
       lcd.print(menu2[i]);
-      checkArrows(i,3);
+      checkArrows(i,5);
       delay(50);
     }
     if(var == BT_CANCEL){
@@ -134,6 +134,52 @@ void configu(){
       lcd.setCursor(0,0);
       lcd.print("MENSAGEM TESTE");
       break;
+      case 5:
+          {
+        cls();
+        lcd.print(OGIVA1);
+        lcd.setCursor(0,1);
+          lcd.print(PRESSBUT);
+//        lcd.setCursor(0,1);
+//        lcd.print(YES_OR_NOT);
+    
+        while(1)
+        {
+          var = keypad.waitForKey();
+          
+          if (var == '1'){
+             // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
+            if ( ! rfid.PICC_IsNewCardPresent()){
+              lcd.setCursor(0,1);
+              lcd.print(WTOGIVA);
+              return;
+            }
+
+              
+            // Verify if the NUID has been readed
+            if (rfid.PICC_ReadCardSerial()){
+              Serial.print(F("PICC type: "));
+              MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
+              for (byte i = 0; i < 4; i++) {
+                nuidPICC[i] = rfid.uid.uidByte[i];
+                }
+              save(10);
+              lcd.setCursor(0,1);
+              printHex(rfid.uid.uidByte, rfid.uid.size);          
+            }
+            else
+              {lcd.setCursor(0,1);
+              lcd.print(WTOGIVA);}
+            
+            }
+            break;
+     
+    //      if (var == '2')
+          if(var == 'c')
+            break;
+        } 
+        tone(tonepin,2400,30);
+  } 
       }
     }
   }
@@ -382,5 +428,7 @@ void configQuickGame(int opt){
     } 
     tone(tonepin,2400,30);
   }  
+
+
   //Continue the game :D
 }
