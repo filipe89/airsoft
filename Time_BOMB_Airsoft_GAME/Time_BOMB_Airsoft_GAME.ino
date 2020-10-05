@@ -46,6 +46,7 @@ int key=-1;
 char lastKey;
 char var;
 boolean passwordEnable=false;
+boolean FUSEEnable=false;
 
 //Buttons for lcd shield
 char BT_RIGHT = '4';

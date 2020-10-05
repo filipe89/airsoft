@@ -134,7 +134,7 @@ void configu(){
       lcd.setCursor(0,0);
       lcd.print("MENSAGEM TESTE");
       break;
-      case 5:
+      case 5:  //INTRODUZIR NOVO RFID
           {
         cls();
         lcd.print(OGIVA1);
@@ -165,11 +165,16 @@ void configu(){
                 }
               save(10);
               lcd.setCursor(0,1);
-              printHex(rfid.uid.uidByte, rfid.uid.size);          
+              printHex(rfid.uid.uidByte, rfid.uid.size);
+              delay(5000);
+              break;       
             }
             else
               {lcd.setCursor(0,1);
-              lcd.print(WTOGIVA);}
+              lcd.print(WTOGIVA);
+              delay(1000);
+              break;
+              }
             
             }
             break;
@@ -179,10 +184,12 @@ void configu(){
             break;
         } 
         tone(tonepin,2400,30);
-  } 
+  }
+  break; 
       }
     }
   }
+  menuPrincipal();
 }
 
 void configQuickGame(int opt){
@@ -429,6 +436,29 @@ void configQuickGame(int opt){
     tone(tonepin,2400,30);
   }  
 
+if( opt == 1){
+    cls();
+    lcd.print(ENABLE_FUSE);
+    lcd.setCursor(0,1);
+    lcd.print(YES_OR_NOT);
 
+    while(1)
+    {
+      var = keypad.waitForKey();
+      if(var == 'a' ){
+        tone(tonepin,2400,30);
+        FUSEEnable = true;
+        save(11);
+        break;
+      }  
+      if(var == 'b' ){
+        tone(tonepin,2400,30);
+        FUSEEnable = false;
+        save(11);
+        break;
+      }  
+    } 
+    tone(tonepin,2400,30);
+  }  
   //Continue the game :D
 }

@@ -20,7 +20,7 @@
   char* GAME_OVER = " ACABOU JOGO! ";
   char* DEFENDERS_WIN = "DEFENSORES GANHAM";
   char* SABOTAGE_FAIL= "FALHA SABOTAGEM!";
-  char* WTOGIVA = "SEM OGIVA";
+  char* WTOGIVA = "SEM OGIVA         ";
   char* RBEGIN = "Pronto p comecar";
   char* PBUTTON = "Premir botao";
   char* STGAME = "COMECAR JOGO";
@@ -33,3 +33,4 @@
   char* RELEOFF = "RELE DESACTIVO!";
   char* OGIVA1 = "OGIVA 1";
   char* PRESSBUT = "PRESS 1 2 C-CANC";
+  char* ENABLE_FUSE = "ACTIVAR FUSIVEIS?";

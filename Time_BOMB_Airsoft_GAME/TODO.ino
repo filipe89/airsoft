@@ -1,0 +1,10 @@
+/*----------------TO DO--------------------
+ * 
+ * 
+ * 
+ * METER OPÇÃO DE RETURN TRUE NA BOMBA EM CONDIÇÃO DE DESATIVADO POR MENU - FUSIVEL
+ * CRIAR OPÇÕES FUSIVEL 2
+ * CRIAR OPÇAO FUSIVEL 3 - OPÇÃO DE ABRIR A MALA COM CARTAO
+ * 
+ * 
+ */

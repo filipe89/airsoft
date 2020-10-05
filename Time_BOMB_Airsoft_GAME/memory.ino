@@ -5,10 +5,13 @@ void getConfig(){
 
 //Check first time 
 
-if (EEPROM.read(0)!= 0){
+//if (EEPROM.read(0)!= 0)
+{
 //write default config values
 
 GAMEMINUTES= ((EEPROM.read(0)*600)+(EEPROM.read(1)*60)+(EEPROM.read(2)*10)+(EEPROM.read(3)));
+      for (int l=0; l<4; l++)  
+        Serial.println(EEPROM.read(l));
 BOMBMINUTES= ((EEPROM.read(4)*10)+EEPROM.read(5));
 ACTIVATESECONDS= ((EEPROM.read(6)*10)+EEPROM.read(7));
 soundEnable = EEPROM.read(8);
@@ -22,7 +25,7 @@ passwordEnable = EEPROM.read(10);
  for(int i=0;i<4;i++){
       nuidPICC[i]=EEPROM.read(20+i); //add 11 - 19
     }
-
+FUSEEnable = EEPROM.read(30);
 }
   
 //RELAY_TIME = EEPROM.read(1) * 1000 ;
@@ -76,5 +79,7 @@ void save(int modo){
 //    for(int i=0;i<4;i++){
 //      EEPROM.write(24+i, password[i]);
 //    }
-  
+  if (modo == 11)
+    EEPROM.write(30,FUSEEnable);
+    
 }

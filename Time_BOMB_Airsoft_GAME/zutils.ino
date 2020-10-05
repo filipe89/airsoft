@@ -168,15 +168,28 @@ void activateRelay(){
 
 boolean ogivas ()
 {
-  lcd.setCursor(3,1);
-  lcd.print(WTOGIVA);
-  delay(2000);
+  
   lcd.setCursor(0,1);
   lcd.print("          ");
+//     Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
+  if ( ! rfid.PICC_IsNewCardPresent()){
+//    Serial.println("There is no new card");
 
-    
+    return false;
+  }
 
-    if (rfid.uid.uidByte[0] != nuidPICC[0] || rfid.uid.uidByte[1] != nuidPICC[1] || rfid.uid.uidByte[2] != nuidPICC[2] || rfid.uid.uidByte[3] != nuidPICC[3] ) {
+  // Verify if the NUID has been readed
+  if ( ! rfid.PICC_ReadCardSerial()){
+//    Serial.println("READ IRFD");
+    lcd.setCursor(4,1);
+    lcd.print(WTOGIVA);
+    return;
+  }
+  
+    if (rfid.uid.uidByte[0] == nuidPICC[0] || rfid.uid.uidByte[1] == nuidPICC[1] || rfid.uid.uidByte[2] == nuidPICC[2] || rfid.uid.uidByte[3] == nuidPICC[3] ) {
+//      Serial.println("RFID COINCIDE");
+      lcd.setCursor(0,1);
+      printHex(rfid.uid.uidByte, rfid.uid.size);
       rfid.PICC_HaltA();
       // Stop encryption on PCD
       rfid.PCD_StopCrypto1();
@@ -184,6 +197,10 @@ boolean ogivas ()
     }
 
     else{
+//      Serial.println("RFID fora");
+      lcd.setCursor(3,1);
+      lcd.print(WTOGIVA);
+      delay(2000);
       // Halt PICC
       rfid.PICC_HaltA();
       // Stop encryption on PCD
